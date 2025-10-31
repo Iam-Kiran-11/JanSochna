@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>हमारी आवाज, हमारे अधिकार — Header (Dark)</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
+
+
+  <style>
+    /* ====== Root & dark theme tokens ====== */
+    :root{
+      color-scheme: dark;
+      --bg:#0b1220;            /* deep navy */
+      --panel:#0f1724;         /* slightly lighter panel */
+      --muted:#94a3b8;         /* muted text */
+      --text:#e6eef8;          /* primary text */
+      --accent-saffron:#f59e0b;/* saffron-ish accent */
+      --accent-green:#10b981;  /* action green */
+      --glass: rgba(255,255,255,0.04);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius:12px;
+      --shadow: 0 6px 20px rgba(2,6,23,0.6);
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    /* ====== Reset & helpers ====== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,var(--bg), #071022 120%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.25;
+    }
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;color:inherit}
+    .container{max-width:1100px;margin:0 auto;padding:16px}
+
+    /* ====== Header ====== */
+    header.app-header{
+      background: linear-gradient(180deg,var(--panel), rgba(16,24,40,0.7));
+      border-radius: calc(var(--radius) + 4px);
+      box-shadow: var(--shadow);
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      gap:16px;
+      position:relative;
+      margin:18px;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+ 
+    /* Logo block */
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .logo{
+      width:56px;height:56px;
+      flex:0 0 56px;
+      display:grid;place-items:center;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent-saffron), #ffb84d);
+      box-shadow: 0 4px 16px rgba(245,158,11,0.14), inset 0 -6px 18px rgba(0,0,0,0.12);
+    }
+    .logo svg{width:34px;height:34px;display:block}
+
+    .brand-text{
+      min-width:0; /* allow truncation */
+    }
+    .title{
+      font-weight:700;
+      font-size:1.05rem;
+      line-height:1.05;
+      letter-spacing:0.2px;
+      margin:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .subtitle{
+      display:block;
+      color:var(--muted);
+      font-size:0.78rem;
+      margin-top:2px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* Actions group (desktop) */
+    .actions{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .lang-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:var(--glass);
+      border-radius:10px;
+      padding:6px;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .lang-toggle button{
+      background:transparent;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      border: none;
+      color:var(--muted);
+      font-weight:600;
+      font-size:0.9rem;
+    }
+    .lang-toggle button.active{
+      background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      box-shadow: inset 0 -2px 6px rgba(0,0,0,0.4);
+      color:var(--text);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .primary-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background: linear-gradient(90deg,var(--accent-green), #059669);
+      color:white;
+      padding:10px 14px;
+      border-radius:12px;
+      border:none;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow: 0 8px 26px rgba(16,185,129,0.12);
+    }
+    .secondary-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:transparent;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    /* small hint below hero (we'll keep for header small) */
+    .header-note{
+      position:absolute;
+      left:18px;
+      bottom:-12px;
+      background:var(--glass-2);
+      padding:8px 12px;
+      border-radius:10px;
+      color:var(--muted);
+      font-size:0.82rem;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.02);
+    }
+
+    /* mobile menu (compact) */
+    .mobile-toggle{
+      display:none;
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.03);
+      padding:8px;
+      border-radius:10px;
+      color:var(--text);
+      cursor:pointer;
+    }
+
+    /* accessibility focus */
+    a:focus,button:focus{
+      outline: 3px solid rgba(16,185,129,0.12);
+      outline-offset:2px;
+    }
+
+    /* responsive rules */
+    @media (max-width:880px){
+      header.app-header{padding:12px}
+      .title{font-size:0.95rem}
+      .subtitle{font-size:0.72rem}
+      .actions{gap:8px}
+      .brand-text{display:none} /* keep compact brand on small screens */
+      .mobile-toggle{display:inline-flex;margin-left:auto}
+      .lang-toggle{display:none}
+      .primary-btn{padding:8px 10px;font-size:0.95rem}
+      .secondary-btn{display:none}
+      .header-note{display:none}
+    }
+
+    @media (max-width:420px){
+      .logo{width:48px;height:48px;flex:0 0 48px}
+      header.app-header{margin:12px;border-radius:10px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="app-header" role="banner" aria-label="Site header">
+      <!-- Brand -->
+      <div class="brand" aria-hidden="false">
+        <div class="logo" aria-hidden="true">
+          <!-- simple emblem / logo SVG placeholder -->
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" fill="white" opacity="0.15"/>
+            <path d="M7 12c0-2.761 2.686-5 5-5s5 2.239 5 5-2.686 5-5 5-5-2.239-5-5z" fill="white" opacity="0.85"/>
+            <path d="M12 7v10" stroke="#0B1220" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="brand-text">
+          <h1 class="title" id="site-title">हमारी आवाज़, हमारे अधिकार</h1>
+          <div class="subtitle" id="site-sub">Our Voice, Our Rights</div>
+        </div>
+      </div>
+       
+      <!-- mobile compact menu toggle (only shown on small screens) -->
+      <button class="mobile-toggle" id="mobileToggle" aria-controls="headerActions" aria-expanded="false" title="Open menu" aria-label="Open menu">
+        ☰
+      </button>
+
+      <!-- Actions -->
+      <div class="actions" id="headerActions">
+        <!-- language toggle -->
+        <div class="lang-toggle" role="tablist" aria-label="Language toggle">
+          <button class="active" id="lang-hi" role="tab" aria-selected="true" aria-controls="langPanel">हिंदी</button>
+          <button id="lang-en" role="tab" aria-selected="false" aria-controls="langPanel">EN</button>
+        </div>
+
+        <!-- Detect and select -->
+        <button class="primary-btn" id="detectBtn" aria-label="Detect my district by location">
+          <span aria-hidden="true">📍</span>
+          <span class="btn-text">Detect My Location</span>
+        </button>
+
+        <button class="secondary-btn" id="chooseBtn" aria-label="Choose district">
+          🔎 Choose District
+        </button>
+      </div>
+
+      <!-- small note (visible on larger screens) -->
+      <div class="header-note" role="note" aria-hidden="false">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="opacity:0.9">
+          <path d="M12 2v6" stroke="white" stroke-opacity="0.85" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="12" cy="16" r="5" stroke="white" stroke-opacity="0.6" stroke-width="1.2"/>
+        </svg>
+        Allow location to find your district
+      </div>
+    </header>
+
+    <!-- =========================
+     District Selection Modal
+     ========================= -->
+<div id="districtModal" class="modal-overlay">
+  <div class="modal">
+    <h2>Select Your District</h2>
+    <p>Pick your district from the list below to view its data.</p>
+
+    <div class="district-list">
+      <button class="district-btn">Bengaluru</button>
+      <button class="district-btn">Mysuru</button>
+      <button class="district-btn">Tumakuru</button>
+      <button class="district-btn">Mandya</button>
+      <button class="district-btn">Shivamogga</button>
+      <button class="district-btn">Udupi</button>
+      <button class="district-btn">Belagavi</button>
+      <button class="district-btn">Chikkamagaluru</button>
+      <button class="district-btn">Ballari</button>
+    </div>
+
+    <button class="close-btn">✖ Close</button>
+  </div>
+</div>
+
+
+    <!-- ===== HERO SECTION ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">Empowering Every District,<br><span>One Voice at a Time</span></h1>
+    <p class="hero-subtitle">
+      Track how your district performs under the MGNREGA program.<br>
+      Simple insights, clear data — for every citizen, in every village.
+    </p>
+     
+  </div>
+
+  <div class="hero-visual">
+    <img src="images/india-map-removebg-preview.png" alt="Map of India silhouette" class="map-img" />
+
+  </div>
+</section>
+
+  </div>
+
+  <script>
+    // Minimal JS for interactive feel (no external libs)
+    (function(){
+      const hiBtn = document.getElementById('lang-hi');
+      const enBtn = document.getElementById('lang-en');
+      const title = document.getElementById('site-title');
+      const subtitle = document.getElementById('site-sub');
+      const mobileToggle = document.getElementById('mobileToggle');
+      const headerActions = document.getElementById('headerActions');
+
+      function setLang(lang){
+        if(lang==='hi'){
+          hiBtn.classList.add('active');
+          enBtn.classList.remove('active');
+          hiBtn.setAttribute('aria-selected','true');
+          enBtn.setAttribute('aria-selected','false');
+          title.textContent = 'हमारी आवाज़, हमारे अधिकार';
+          subtitle.textContent = 'अपने ज़िले की प्रगति देखें';
+          document.documentElement.lang = 'hi';
+        } else {
+          enBtn.classList.add('active');
+          hiBtn.classList.remove('active');
+          enBtn.setAttribute('aria-selected','true');
+          hiBtn.setAttribute('aria-selected','false');
+          title.textContent = 'Our Voice, Our Rights';
+          subtitle.textContent = 'See your district\'s progress';
+          document.documentElement.lang = 'en';
+        }
+      }
+
+      hiBtn.addEventListener('click', ()=>setLang('hi'));
+      enBtn.addEventListener('click', ()=>setLang('en'));
+
+      // Mobile toggle: show/hide actions (very small behavior)
+      mobileToggle.addEventListener('click', ()=>{
+        const expanded = mobileToggle.getAttribute('aria-expanded') === 'true';
+        mobileToggle.setAttribute('aria-expanded', String(!expanded));
+        if(!expanded){
+          headerActions.style.display = 'flex';
+        } else {
+          headerActions.style.display = '';
+        }
+      });
+
+      // Geolocation button behavior (graceful)
+      const detectBtn = document.getElementById('detectBtn');
+      detectBtn.addEventListener('click', async ()=>{
+        detectBtn.disabled = true;
+        detectBtn.textContent = '⏳ Locating...';
+        try{
+          if(!navigator.geolocation) throw new Error('Geolocation not supported');
+          navigator.geolocation.getCurrentPosition(async (pos)=>{
+            // Here you would call backend to map lat/lon -> district.
+            // For demo, we just show success animation and re-enable.
+            detectBtn.textContent = '📍 Location found';
+            setTimeout(()=>{ detectBtn.textContent = 'Detect My Location'; detectBtn.disabled = false; }, 1800);
+          }, (err)=>{
+            detectBtn.textContent = 'Detect My Location';
+            detectBtn.disabled = false;
+            alert('Unable to detect location. Please allow location access or choose district manually.');
+          }, { timeout:10000, maximumAge:60000 });
+        }catch(e){
+          detectBtn.textContent = 'Detect My Location';
+          detectBtn.disabled = false;
+          alert('Location unavailable on this device.');
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- ===== DISTRICT PERFORMANCE SNAPSHOT ===== -->
+<section class="district-snapshot">
+  <h2 class="section-title">📊 District Performance Snapshot</h2>
+  <p class="section-subtitle">
+    A quick overview of your district’s progress under the MGNREGA program.
+  </p>
+
+  <div class="snapshot-grid">
+    <!-- Card 1 -->
+    <div class="snapshot-card">
+      <h3>Households Benefited</h3>
+      <p class="snapshot-value">1,25,430</p>
+      <div class="snapshot-bar">
+        <div class="snapshot-fill" style="width: 80%; background-color: #34d399;"></div>
+      </div>
+      <span class="snapshot-status good">↑ 5% from last month</span>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="snapshot-card">
+      <h3>Total Workdays</h3>
+      <p class="snapshot-value">4.8 Million</p>
+      <div class="snapshot-bar">
+        <div class="snapshot-fill" style="width: 65%; background-color: #f59e0b;"></div>
+      </div>
+      <span class="snapshot-status average">↔ Same as last month</span>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="snapshot-card">
+      <h3>Wages Paid</h3>
+      <p class="snapshot-value">₹32.4 Cr</p>
+      <div class="snapshot-bar">
+        <div class="snapshot-fill" style="width: 90%; background-color: #10b981;"></div>
+      </div>
+      <span class="snapshot-status good">↑ 10% from last month</span>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="snapshot-card">
+      <h3>Ongoing Projects</h3>
+      <p class="snapshot-value">248</p>
+      <div class="snapshot-bar">
+        <div class="snapshot-fill" style="width: 55%; background-color: #ef4444;"></div>
+      </div>
+      <span class="snapshot-status poor">↓ 3% from last month</span>
+    </div>
+  </div>
+</section>
+<!-- ===== PAST PERFORMANCE / TRENDS ===== -->
+<section class="past-performance">
+  <h2 class="section-title">📈 Past Performance & Trends</h2>
+  <p class="section-subtitle">
+    See how your district has performed over the past few months in key metrics.
+  </p>
+
+  <div class="trend-chart">
+    <!-- Metric: Workdays Generated -->
+    <div class="trend-card">
+      <h3>Workdays Generated</h3>
+      <div class="trend-bars">
+        <div class="bar" style="height: 70%;" title="June"></div>
+        <div class="bar" style="height: 85%;" title="July"></div>
+        <div class="bar" style="height: 90%;" title="August"></div>
+        <div class="bar" style="height: 78%;" title="September"></div>
+        <div class="bar" style="height: 88%;" title="October"></div>
+      </div>
+      <div class="bar-labels">
+        <span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+      </div>
+    </div>
+
+    <!-- Metric: Wages Paid -->
+    <div class="trend-card">
+      <h3>Wages Paid (₹ Crores)</h3>
+      <div class="trend-bars second">
+        <div class="bar" style="height: 60%;" title="June"></div>
+        <div class="bar" style="height: 75%;" title="July"></div>
+        <div class="bar" style="height: 85%;" title="August"></div>
+        <div class="bar" style="height: 80%;" title="September"></div>
+        <div class="bar" style="height: 90%;" title="October"></div>
+      </div>
+      <div class="bar-labels">
+        <span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== DISTRICT COMPARISON SECTION ===== -->
+<section class="comparison">
+  <h2 class="section-title">🏞️ District Comparison</h2>
+  <p class="section-subtitle">
+    Compare performance between two districts under the MGNREGA program.
+  </p>
+
+  <div class="compare-container">
+    <!-- Dropdowns -->
+    <div class="compare-select">
+      <label for="district1">Select First District</label>
+      <select id="district1" name="district1">
+        <option value="">-- Choose District --</option>
+        <option>Bengaluru</option>
+        <option>Mysuru</option>
+        <option>Belagavi</option>
+        <option>Kalaburagi</option>
+      </select>
+
+      <label for="district2">Select Second District</label>
+      <select id="district2" name="district2">
+        <option value="">-- Choose District --</option>
+        <option>Bengaluru</option>
+        <option>Mysuru</option>
+        <option>Belagavi</option>
+        <option>Kalaburagi</option>
+      </select>
+    </div>
+
+    <!-- Comparison Cards -->
+    <div class="compare-grid">
+      <!-- Card 1 -->
+      <div class="compare-card">
+        <h3>Households Benefited</h3>
+        <div class="compare-bars">
+          <div class="bar bar1" style="width: 80%">Bengaluru — 1.2L</div>
+          <div class="bar bar2" style="width: 65%">Mysuru — 98K</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="compare-card">
+        <h3>Total Workdays</h3>
+        <div class="compare-bars">
+          <div class="bar bar1" style="width: 90%">Bengaluru — 5.4M</div>
+          <div class="bar bar2" style="width: 78%">Mysuru — 4.7M</div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="compare-card">
+        <h3>Wages Paid</h3>
+        <div class="compare-bars">
+          <div class="bar bar1" style="width: 85%">Bengaluru — ₹38.2 Cr</div>
+          <div class="bar bar2" style="width: 70%">Mysuru — ₹31.5 Cr</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ===== EXPLAINERS / EDUCATION SECTION ===== -->
+<section class="education">
+  <h2 class="section-title">📘 Understand MGNREGA Better</h2>
+  <p class="section-subtitle">
+    Learn how the Mahatma Gandhi National Rural Employment Guarantee Act empowers rural India.
+  </p>
+
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-icon">👷‍♀️</div>
+      <h3>Right to Work</h3>
+      <p>
+        Every rural household has the right to 100 days of wage employment per year. 
+        This program ensures financial security and dignity for families.
+      </p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">🌾</div>
+      <h3>Building Rural Assets</h3>
+      <p>
+        MGNREGA supports the creation of durable rural infrastructure like water conservation,
+        land development, and irrigation facilities.
+      </p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">💰</div>
+      <h3>Transparency in Wages</h3>
+      <p>
+        Payments are made directly to workers’ bank accounts, ensuring transparency 
+        and reducing corruption in wage distribution.
+      </p>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">📊</div>
+      <h3>Empowering Local Governance</h3>
+      <p>
+        Gram Panchayats plan and execute projects, empowering local communities 
+        to make data-driven decisions for their future.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- ===== ABOUT MGNREGA SECTION ===== -->
+<section class="about">
+  <div class="about-container">
+    <div class="about-text">
+      <h2>About the MGNREGA Program</h2>
+      <p class="intro">
+        The <strong>Mahatma Gandhi National Rural Employment Guarantee Act (MGNREGA)</strong> 
+        is a landmark social security initiative by the Government of India that guarantees 
+        100 days of wage employment every year to rural households.
+      </p>
+
+      <p>
+        The aim is not just employment, but empowerment — to strengthen livelihoods, 
+        enhance rural infrastructure, and ensure dignity through meaningful work. 
+        From building ponds to maintaining roads, every project under MGNREGA 
+        contributes to long-term rural development.
+      </p>
+
+      <p>
+        Since its inception in 2005, MGNREGA has changed millions of lives by 
+        providing stability in uncertain times, supporting women’s participation, 
+        and nurturing the roots of India’s villages.
+      </p>
+
+      <a href="https://nrega.nic.in/" target="_blank" class="learn-more-btn">Learn More →</a>
+    </div>
+
+    <div class="about-image">
+      <img src="images/indian-farmer-field_75648-189.jpg" 
+           alt="MGNREGA Workers in the Field">
+    </div>
+  </div>
+</section>
+<!-- ===== CALL TO ACTION SECTION ===== -->
+<section class="cta">
+  <div class="cta-content">
+    <h2>Be the Voice of Your District</h2>
+    <p>
+      Explore how your district is performing under MGNREGA and join the movement
+      towards transparency, progress, and empowerment.
+    </p>
+    <a href="#district-performance" class="cta-btn">Check Your District →</a>
+  </div>
+</section>
+<!-- ===== FOOTER SECTION ===== -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Our Voice, Our Rights</h3>
+      <p>
+        Empowering every citizen to understand and participate in the 
+        MGNREGA program — for a transparent, progressive, and inclusive India.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#district-performance">District Performance</a></li>
+        <li><a href="#education">Learn About MGNREGA</a></li>
+        <li><a href="#about">About Us</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p>Email: <a href="mailto:info@mgnrega.gov.in">info@mgnrega.gov.in</a></p>
+      <p>Helpline: <a href="tel:1800123456">1800-123-456</a></p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 Our Voice, Our Rights — Inspired by the spirit of MGNREGA 🇮🇳</p>
+  </div>
+</footer>
+<!-- ===== STYLING TIPS SECTION ===== -->
+<section class="styling-tips">
+  <h2 class="tips-title">💡 Your Guide to a Smooth Experience</h2>
+  <p class="tips-subtitle">
+    A few small actions can help you explore MGNREGA data more clearly and beautifully.
+  </p>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="tip-icon">🌙</div>
+      <h3>Use Dark Mode</h3>
+      <p>
+        The dark theme saves battery and reduces eye strain — perfect for night-time browsing in rural areas.
+      </p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">🔍</div>
+      <h3>Zoom In for Clarity</h3>
+      <p>
+        Increase text size or zoom in using <strong>Ctrl +</strong> to make charts and information easier to read.
+      </p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">📱</div>
+      <h3>Try on Mobile</h3>
+      <p>
+        The website is fully mobile-friendly — check your district’s data on the go anytime, anywhere!
+      </p>
+    </div>
+
+    <div class="tip-card">
+      <div class="tip-icon">🗣️</div>
+      <h3>Choose Your Language</h3>
+      <p>
+        You can view the data in your preferred language to make understanding MGNREGA simpler for everyone.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script src="script.js"></script>
+<script src="hero.js"></script>
+</body>
+</html>
+
